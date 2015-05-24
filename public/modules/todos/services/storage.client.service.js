@@ -4,7 +4,7 @@
 
 'use strict';
 
-angular.module('core').service('storage', ['$q', '$rootScope', 'config',
+angular.module('todos').service('storage', ['$q', '$rootScope', 'config',
     /**
      * Handles document creation & loading for the app. Keeps only
      * one document loaded at a time.
@@ -112,7 +112,7 @@ angular.module('core').service('storage', ['$q', '$rootScope', 'config',
     this.load = function (id) {
         var deferred = $q.defer();
         var initialize = function (model) {
-            model.getRoot().set('blocks', model.createList());
+            model.getRoot().set('todos', model.createList());
         };
         var onLoad = function (document) {
             this.setDocument(id, document);
@@ -121,12 +121,12 @@ angular.module('core').service('storage', ['$q', '$rootScope', 'config',
         }.bind(this);
         var onError = function (error) {
             if (error.type === gapi.drive.realtime.ErrorType.TOKEN_REFRESHED_REQUIRED){
-                $rootScope.$emit('blocks.token_refresh_required');
+                $rootScope.$emit('todos.token_refresh_required');
             } else if (error.type === gapi.drive.realtime.ErrorType.CLIENT_ERROR){
-                $rootScope.$emit('blocks.client_error');
+                $rootScope.$emit('todos.client_error');
             } else if (error.type === gapi.drive.realtime.ErrorType.NOT_FOUND) {
                 deferred.reject(error);
-                $rootScope.$emit('blocks.not_found', id);
+                $rootScope.$emit('todos.not_found', id);
             }
             $rootScope.$digest();
         };

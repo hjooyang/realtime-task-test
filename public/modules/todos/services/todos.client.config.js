@@ -16,4 +16,5 @@ var CONFIG = {
 };
 
 
-angular.module('core').value('config', CONFIG);
+angular.module('todos').value('config', CONFIG);
+
